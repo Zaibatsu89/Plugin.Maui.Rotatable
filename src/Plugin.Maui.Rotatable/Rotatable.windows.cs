@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace Plugin.Maui.Rotatable;
 
@@ -66,4 +68,16 @@ public partial class RotatableImplementation : IRotatable, INotifyPropertyChange
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected bool SetProperty<T>([NotNullIfNotNull(nameof(newValue))] ref T field, T newValue, [CallerMemberName] string? propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, newValue))
+        {
+            return false;
+        }
+
+        field = newValue;
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        return true;
+    }
 }

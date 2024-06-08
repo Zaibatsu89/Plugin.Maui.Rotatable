@@ -5,12 +5,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:c="clr-namespace:Plugin.Maui.Rotatable.Sample.Converters"
     xmlns:vm="clr-namespace:Plugin.Maui.Rotatable.Sample.ViewModels"
-    Title="Rotatable Plugin">
+    Title="Rotatable Plugin"
+    x:DataType="{x:Type vm:MainPage}">
     <ContentPage.BindingContext>
         <vm:MainPage />
     </ContentPage.BindingContext>
     <Grid ColumnDefinitions="*,2*,*" ColumnSpacing="0">
-        <Grid Padding="10" BackgroundColor="Red">
+        <Grid
+            Padding="10"
+            BackgroundColor="Red"
+            IsVisible="{Binding IsAvailable}">
             <Grid.Column>
                 <Binding Path="IsPortrait">
                     <Binding.Converter>
