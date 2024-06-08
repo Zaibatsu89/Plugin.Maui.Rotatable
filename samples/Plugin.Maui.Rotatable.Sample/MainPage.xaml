@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Plugin.Maui.Rotatable.Sample.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:c="clr-namespace:Plugin.Maui.Rotatable.Sample.Converters"
+    xmlns:vm="clr-namespace:Plugin.Maui.Rotatable.Sample.ViewModels"
+    Title="Rotatable Plugin">
+    <ContentPage.BindingContext>
+        <vm:MainPage />
+    </ContentPage.BindingContext>
+    <Grid ColumnDefinitions="*,2*,*" ColumnSpacing="0">
+        <Grid Padding="10" BackgroundColor="Red">
+            <Grid.Column>
+                <Binding Path="IsPortrait">
+                    <Binding.Converter>
+                        <c:RotatableColumnConverter x:TypeArguments="x:Int32" />
+                    </Binding.Converter>
+                </Binding>
+            </Grid.Column>
+            <Grid.ColumnSpan>
+                <Binding Path="IsPortrait">
+                    <Binding.Converter>
+                        <c:RotatableColumnSpanConverter x:TypeArguments="x:Int32" />
+                    </Binding.Converter>
+                </Binding>
+            </Grid.ColumnSpan>
+            <Label
+                FontSize="Medium"
+                HorizontalTextAlignment="Center"
+                Text="I am customized for every orientation"
+                TextColor="White"
+                VerticalTextAlignment="Center" />
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,19 +1,15 @@
-<!-- 
-Everything in here is of course optional. If you want to add/remove something, absolutely do so as you see fit.
-This example README has some dummy APIs you'll need to replace and only acts as a placeholder for some inspiration that you can fill in with your own functionalities.
--->
 ![](nuget.png)
-# Plugin.Maui.Feature
+# Plugin.Maui.Rotatable
 
-`Plugin.Maui.Feature` provides the ability to do this amazing thing in your .NET MAUI application.
+`Plugin.Maui.Rotatable` provides the ability to customize your presentation when the orientation changes inside a .NET MAUI application.
 
 ## Install Plugin
 
-[![NuGet](https://img.shields.io/nuget/v/Plugin.Maui.Feature.svg?label=NuGet)](https://www.nuget.org/packages/Plugin.Maui.Feature/)
+[![NuGet](https://img.shields.io/nuget/v/Plugin.Maui.Rotatable.svg?label=NuGet)](https://www.nuget.org/packages/Plugin.Maui.Rotatable/)
 
-Available on [NuGet](http://www.nuget.org/packages/Plugin.Maui.Feature).
+Available on [NuGet](http://www.nuget.org/packages/Plugin.Maui.Rotatable) soon.
 
-Install with the dotnet CLI: `dotnet add package Plugin.Maui.Feature`, or through the NuGet Package Manager in Visual Studio.
+Install with the dotnet CLI: `dotnet add package Plugin.Maui.Rotatable`, or through the NuGet Package Manager in Visual Studio.
 
 ### Supported Platforms
 
@@ -26,103 +22,75 @@ Install with the dotnet CLI: `dotnet add package Plugin.Maui.Feature`, or throug
 
 ## API Usage
 
-`Plugin.Maui.Feature` provides the `Feature` class that has a single property `Property` that you can get or set.
+`Plugin.Maui.Feature` provides the `RotatableImplementation` class that has a single property `IsPortrait` that you can get.
 
-You can either use it as a static class, e.g.: `Feature.Default.Property = 1` or with dependency injection: `builder.Services.AddSingleton<IFeature>(Feature.Default);`
-
-### Permissions
-
-Before you can start using Feature, you will need to request the proper permissions on each platform.
-
-#### iOS
-
-No permissions are needed for iOS.
-
-#### Android
-
-No permissions are needed for Android.
-
-### Dependency Injection
-
-You will first need to register the `Feature` with the `MauiAppBuilder` following the same pattern that the .NET MAUI Essentials libraries follow.
-
-```csharp
-builder.Services.AddSingleton(Feature.Default);
-```
-
-You can then enable your classes to depend on `IFeature` as per the following example.
-
-```csharp
-public class FeatureViewModel
-{
-    readonly IFeature feature;
-
-    public FeatureViewModel(IFeature feature)
-    {
-        this.feature = feature;
-    }
-
-    public void StartFeature()
-    {
-        feature.ReadingChanged += (sender, reading) =>
-        {
-            Console.WriteLine(reading.Thing);
-        };
-
-        feature.Start();
-    }
-}
-```
+You can use it as a base class, e.g.: `{Binding IsPortrait}`
 
 ### Straight usage
 
-Alternatively if you want to skip using the dependency injection approach you can use the `Feature.Default` property.
+You can enable your classes to depend on `RotatableImplementation` as per the following example.
 
 ```csharp
-public class FeatureViewModel
+public class RotatableViewModel : RotatableImplementation
 {
-    public void StartFeature()
-    {
-        feature.ReadingChanged += (sender, reading) =>
-        {
-            Console.WriteLine(feature.Thing);
-        };
-
-        Feature.Default.Start();
-    }
+    
 }
 ```
 
-### Feature
+Then you can use property `IsPortrait` in your presentation as per the following example.
 
-Once you have created a `Feature` you can interact with it in the following ways:
+```xaml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MyAwesomeApp.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:c="clr-namespace:MyAwesomeApp.Converters"
+    xmlns:vm="clr-namespace:MyAwesomeApp.ViewModels">
+    <ContentPage.BindingContext>
+        <vm:MainPage />
+    </ContentPage.BindingContext>
+    <Grid ColumnDefinitions="*,2*,*" ColumnSpacing="0">
+        <Grid Padding="10" BackgroundColor="Red">
+            <Grid.Column>
+                <Binding Path="IsPortrait">
+                    <Binding.Converter>
+                        <c:RotatableColumnConverter x:TypeArguments="x:Int32" />
+                    </Binding.Converter>
+                </Binding>
+            </Grid.Column>
+            <Grid.ColumnSpan>
+                <Binding Path="IsPortrait">
+                    <Binding.Converter>
+                        <c:RotatableColumnSpanConverter x:TypeArguments="x:Int32" />
+                    </Binding.Converter>
+                </Binding>
+            </Grid.ColumnSpan>
+            <Label
+                FontSize="Medium"
+                HorizontalTextAlignment="Center"
+                Text="I am customized for every orientation"
+                TextColor="White"
+                VerticalTextAlignment="Center" />
+        </Grid>
+    </Grid>
+</ContentPage>
+```
 
-#### Events
+### Rotatable
 
-##### `ReadingChanged`
-
-Occurs when feature reading changes.
+Once you have overridden a `RotatableImplementation` you can interact with it in the following ways:
 
 #### Properties
 
-##### `IsSupported`
+##### `IsPortrait`
 
-Gets a value indicating whether reading the feature is supported on this device.
-
-##### `IsMonitoring`
-
-Gets a value indicating whether the feature is actively being monitored.
-
-#### Methods
-
-##### `Start()`
-
-Start monitoring for changes to the feature.
-
-##### `Stop()`
-
-Stop monitoring for changes to the feature.
+Gets a value indicating whether the orientation is changed.
 
 # Acknowledgements
 
 This project could not have came to be without these projects and people, thank you! <3
+
+## Plugin.Maui.Feature template
+
+Basically the template for this plugin. We have been using this in our .NET MAUI projects with much joy and ease, so thank you so much [Gerald](https://github.com/jfversluis/) (and contributors!) for that. Find the original project [here](https://github.com/jfversluis/Plugin.Maui.Feature/) where we have based our project on and evolved it from there.
