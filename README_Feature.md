@@ -22,7 +22,7 @@ Install with the dotnet CLI: `dotnet add package Plugin.Maui.Rotatable`, or thro
 
 ## API Usage
 
-`Plugin.Maui.Feature` provides the `RotatableImplementation` class that has a single property `IsPortrait` that you can get.
+`Plugin.Maui.Rotatable` provides the `RotatableImplementation` class that has a single property `IsPortrait` that you can get.
 
 You can use it as a base class, e.g.: `{Binding IsPortrait}`
 
