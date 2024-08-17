@@ -10,4 +10,10 @@ public partial class RotatableImplementation : IRotatable
             throw new NotSupportedException();
         }
     }
+
+    /// <inheritdoc cref="IRotatable.InvokeProperty" />
+    public void InvokeProperty(string? propertyName)
+    {
+        throw new NotSupportedException();
+    }
 }

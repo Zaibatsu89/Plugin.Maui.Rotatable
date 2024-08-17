@@ -69,6 +69,12 @@ public partial class RotatableImplementation : IRotatable, INotifyPropertyChange
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
+    /// <inheritdoc cref="IRotatable.InvokeProperty" />
+    public void InvokeProperty(string? propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
     protected bool SetProperty<T>([NotNullIfNotNull(nameof(newValue))] ref T field, T newValue, [CallerMemberName] string? propertyName = null)
     {
         if (EqualityComparer<T>.Default.Equals(field, newValue))
@@ -77,7 +83,7 @@ public partial class RotatableImplementation : IRotatable, INotifyPropertyChange
         }
 
         field = newValue;
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        InvokeProperty(propertyName);
         return true;
     }
 }
