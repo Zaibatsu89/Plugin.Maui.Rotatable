@@ -87,6 +87,12 @@ Once you have overridden a `RotatableImplementation` you can interact with it in
 
 Gets a value indicating whether the orientation is changed.
 
+#### Functions
+
+#### `InvokeProperty(string? propertyName)`
+
+Sends an event when a property is changed.
+
 # Acknowledgements
 
 This project could not have came to be without these projects and people, thank you! <3
