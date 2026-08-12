@@ -1,24 +1,26 @@
-name: Build for CI
+name: CI
 
 on:
   push:
-    branches: [ "main" ]
-    paths-ignore:
-      - "**.md"
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
+
+env:
+  DOTNET_VERSION: '10.0.x'
 
 jobs:
-  build-plugin-ci:
-
-    runs-on: windows-latest
+  build:
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 10.0.x
-    - name: Restore workloads
-      run: dotnet workload restore src\Plugin.Maui.Rotatable.sln
-    - name: Build
-      run: dotnet build src\Plugin.Maui.Rotatable.sln -c Release
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+      - name: Install .NET MAUI workload
+        run: dotnet workload install maui-android
+      - name: Restore
+        run: dotnet restore src/Plugin.Maui.Rotatable/Plugin.Maui.Rotatable.csproj -p:TargetFramework=net10.0
+      - name: Build
+        run: dotnet build src/Plugin.Maui.Rotatable/Plugin.Maui.Rotatable.csproj -f net10.0 -c Release --no-restore --no-incremental
