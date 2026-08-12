@@ -1,6 +1,6 @@
 ﻿namespace Plugin.Maui.Rotatable.Sample.ViewModels;
 
-public class MainPage : RotatableImplementation
+public partial class MainPage : RotatableImplementation
 {
     private bool _isAvailable = false;
     public bool IsAvailable

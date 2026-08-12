@@ -4,13 +4,13 @@
 /// </summary>
 public interface IRotatable
 {
-	/// <summary>
-	/// Called when the orientation is changed.
-	/// </summary>
-	bool IsPortrait { get; }
-	/// <summary>
-	/// Called when a property is changed.
-	/// </summary>
-	/// <param name="propertyName">The name of the property.</param>
-	void InvokeProperty(string? propertyName);
+    /// <summary>
+    /// Called when the orientation is changed.
+    /// </summary>
+    bool IsPortrait { get; }
+    /// <summary>
+    /// Called when a property is changed.
+    /// </summary>
+    /// <param name="propertyName">The name of the property.</param>
+    void InvokeProperty(string? propertyName);
 }
